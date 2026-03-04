@@ -5,6 +5,7 @@ import Service from './Service.jsx'
 import Products from './Products.jsx'
 import Questions from './Questions.jsx'
 import Contact from './Contact.jsx'
+import Footer from './Footer.jsx'
 
 export default function Home(){
   return(
@@ -16,6 +17,7 @@ export default function Home(){
       <section id="products"><Products /></section>
       <section id="faq"><Questions /></section>
       <section id="contact"><Contact /></section>
+      <Footer />
     </>
   )
 }

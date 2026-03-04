@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import colors from './color.jsx'; 
+import logo from './assets/logo.jpg';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +74,10 @@ export default function Header() {
       >
         {/* Logo */}
         <div className="flex-shrink-0">
-          <img src="logo.png" alt="Biki Tech Logo" className="h-10 w-auto" />
+          <img 
+          src={logo}
+          alt="Biki Tech Logo" 
+          className="h-[50px] w-[50px] rounded-[50%]" />
         </div>
 
         {/* Mobile Hamburger */}

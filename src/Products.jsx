@@ -1,53 +1,48 @@
 import colors from './color.jsx';
-import VideoPlayer from './Video.jsx'
-const woods = [
-  {
-    name: "Mahogany",
-    description: "Mahogany is a strong wood known in africa and all over the world, cause it gives quality",
-    src : "?",
-    type: "image",
-  },
-  {
-    name : "obeche",
-    description: "Obeche, obekichi bekeche ,ata kere iyo dun.....hmmm Obeche gangan niyen oo file",
-    src: "?",
-    type: 'image',
-  },
-  {
-    name: "Review",
-    description : "bikitech premium woods usrd to make a facinating and obesses cooling spot, what are you wauting for?",
-    src : "?",
-    type: "video",
-  },
-  {
-    name: "Review",
-    description : "bikitech premium woods usrd to make a facinating and obesses cooling spot, what are you wauting for?",
-    src : "?",
-    type: "video",
-  },
-  ]
+import VideoPlayer from './Video.jsx';
+import { useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query';
+import { useCounter } from './Context/counter.jsx';
+import db from './lib/util.jsx';
 
 export function Media(){
+  const { incrementCount } = useCounter();
+  const {data, isError, isPending, error} = useQuery({
+    queryKey:['woodProduct'],
+    queryFn: async()=>{
+      const res = await db.listDocuments("products", {
+        limit: 4,
+      });
+      return res;
+    }
+  });
+  
   return(
    <>
-  {woods.map((items)=> (
+  {!data || data.lenght === 0 ? (
+  <div className="w-full ">
+    <p className="text-white font-base text-sm">No Items here</p>
+  </div>
+  ):(data.map((items)=> (
     
 <div className="w-[320px] lg:w-[400px] p-3 max-h-[600px] rounded-[15px]"
     style={{
       background: colors.proContainer,
-    }}>
+    }}
+    key={items.id}
+    >
       {/*image*/}
     <div className="w-full h-[350px] rounded-[15px] bg-black/50">
-    {items.type === "image" ? (
+    {items.data.fileType === "image" ? (
       <img
-      src={items.src}
+      src={items.data.mainImage}
       alt="image"
-      className="w-full h-full object-center"
+      className="w-full h-full object-cover rounded-[15px]"
       />
     ) :(
       <VideoPlayer 
-      src={items.src}
-      className="w-full h-full"
+      src={items.data.mainImage}
+      className="w-full h-full rounded-[15px]"
       />
     )}
       
@@ -70,7 +65,7 @@ export function Media(){
       <h1 className="text-xl font-bold"
       style={{
         color: colors.primaryText,
-      }}>{items.name}</h1>
+      }}>{items.data.name}</h1>
       
       <span className="text-sm font-semibold"
       style={{
@@ -79,7 +74,7 @@ export function Media(){
       <p className="text-xs font-semibold"
       style={{
         color: colors.text,
-      }}>{items.description}</p>
+      }}>{items.data.description}</p>
     </div>
     
     </div>
@@ -91,24 +86,39 @@ export function Media(){
       style={{
         color: colors.text,
         background: colors.accent,
-      }}>Whatsapp</button>
+      }}
+      onClick={()=>{
+        window.open('https://wa.me/07061321970')
+        incrementCount("whatsapp")
+      }}
+      >
+ <i className="fa-brands fa-whatsapp"></i>
+        Whatsapp</button>
     
       <button className="p-[10px] w-[150px] outline-none rounded-[12px] text-lg font-semibold"
       style={{
         color: colors.text,
         background: colors.deepAccent,
-      }}>Phone</button>
+      }}
+      onClick={()=>{
+  window.location.href = 'tel:07061321970';
+  incrementCount("call")
+      }}>
+      <i className="fa-solid fa-phone"></i>
+         Phone</button>
     
     </div>
     
     </div>
-  )) 
+  ))
+  )
     }
     </>
     )
 }
 
 export default function Products(){
+  const navigate = useNavigate();
   return(
     <div className="grid gap-[3px] p-3">
     <h3
@@ -140,6 +150,9 @@ export default function Products(){
         style={{
         border:`2px solid ${colors.border}`,
        color: colors.text,
+        }}
+        onClick={()=>{
+          navigate("/Allproducts")
         }}>
           See More<i className="fa-solid fa-arrow-right"></i>
         </button>

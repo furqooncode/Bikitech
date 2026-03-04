@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
 import colors from './color.jsx';
-import transport from './assets/transport.jpeg';
+import Transport from './assets/transport.jpeg';
 import supply from './assets/supply.jpg'
 import cutting from './assets/cutting.jpg'
 import milling from './assets/milling.jpeg'
@@ -96,7 +96,7 @@ export default function Service() {
           transition={{ duration: 0.35, delay: 0.15 }}
           title="Transportation"
           icon={<i className="fa-solid fa-truck-fast"></i>}
-          img={transport}
+          img={Transport}
           description="Reliable, fast delivery across Lagos and beyond for your convenience."
         />
 
@@ -143,3 +143,4 @@ export default function Service() {
     </div>
   );
 }
+

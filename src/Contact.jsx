@@ -2,8 +2,10 @@ import { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import { showSuccess, showError } from './Alert.jsx';
 import colors from './color.jsx';
+import { useCounter } from './Context/counter.jsx';
 
 export default function Contact() {
+  const { incrementCount } = useCounter();
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -37,6 +39,7 @@ export default function Contact() {
       },
       'a_W0jfSVksFCzlsIm'
     ).then(() => {
+      incrementCount("mail")
       showSuccess('Message sent successfully!');
       setLoading(false);
       setForm({ name: '', phone: '', email: '', emailFor: '', message: '' });
