@@ -10,12 +10,6 @@ import colors from './color.jsx'
 
 
 export default function App(){
-  useEffect(() => {
-    import('vconsole').then(({ default: VConsole }) => {
-      new VConsole();
-    });
-    console.log("page mounted!!")
-  }, []);
   
   const {data, isError, isPending, error} = useQuery({
     queryKey:['woodProduct'],
